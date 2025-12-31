@@ -8,9 +8,10 @@ interface Pokemon {
 
 interface Props {
     id: number;
+    name: string;
 }
 
-export const usePokemon = ({ id }: Props) => {
+export const usePokemon = ({ id, name }: Props) => {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -29,9 +30,33 @@ export const usePokemon = ({ id }: Props) => {
         setIsLoading(false);
     }
 
+    const getPokemonByName = async (name: string) => {
+        if (name.trim() === '') return;
+
+        setIsLoading(true);
+
+        name = name.toLowerCase();
+
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${ name }`);
+        const data = await response.json();
+
+        setPokemon({
+            id: data.order,
+            name: name,
+            imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ data.order }`,
+        });
+
+        setIsLoading(false);
+    }
+
     useEffect(() => {
         getPokemonById(id);
     }, [id]);
+
+    useEffect(() => {
+        getPokemonByName(name);
+        console.log(name);
+    }, [name]);
 
     return {
         pokemon,
