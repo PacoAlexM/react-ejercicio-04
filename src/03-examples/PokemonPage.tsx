@@ -5,9 +5,9 @@ import { usePokemon } from '../hooks/usePokemon'
 
 export const PokemonPage = () => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const { counter, increment, decrement } = useCounter();
+    const { counter, increment, decrement, reset } = useCounter();
     const { name, saveName } = useName();
-    const { pokemon, formattedId, isLoading } = usePokemon({ id: counter, name });
+    const { pokemon, formattedId, isLoading, errorMessage } = usePokemon({ id: counter, name });
 
     if (isLoading) {
         return (
@@ -23,6 +23,8 @@ export const PokemonPage = () => {
             <div className="bg-gradient flex flex-col items-center">
                 <h1 className="text-2xl font-thin text-white">Pokémon</h1>
                 <h3 className="text-xl font-bold text-white">No encontrado</h3>
+                { errorMessage && <h3 className="text-sm font-thin text-white mb-4">{ errorMessage }</h3> }
+                <button className="underline cursor-pointer hover:text-blue-400" onClick={ reset }>Regresar</button>
             </div>
         );
     }
@@ -31,7 +33,15 @@ export const PokemonPage = () => {
         <div className="bg-gradient flex flex-col items-center">
             <h1 className="text-2xl font-thin text-white">Pokémon</h1>
             <h3 className="text-xl font-bold text-white">#{ formattedId } { pokemon.name }</h3>
-            <img src={ `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ counter }.png` } alt={ pokemon.name } />
+            <img src={ `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ pokemon.id }.png` } alt={ pokemon.name } />
+
+            <div className="flex gap-2 mb-3">
+                {
+                    pokemon.typeId.map(type => (
+                        <img className="w-[90px]" key={ type } src={ `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/brilliant-diamond-and-shining-pearl/${ type }.png` } alt="pokeémon_type" />
+                    ))
+                }
+            </div>
 
             <div className="flex gap-2 mb-2">
                 <button className="enabled:bg-blue-500 disabled:bg-blue-300 text-white px-4 py-2 rounded-md enabled:cursor-pointer" disabled={ counter == 1 } onClick={ decrement }>Anterior</button>
