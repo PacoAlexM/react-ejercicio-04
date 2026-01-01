@@ -17,16 +17,16 @@ export const usePokemon = ({ id, name }: Props) => {
 
     const getPokemonById = async (id: number) => {
         setIsLoading(true);
-
+        
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${ id }`);
         const data = await response.json();
-
+        
         setPokemon({
             id: id,
             name: data.name,
             imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }`,
         });
-
+        
         setIsLoading(false);
     }
 
@@ -35,11 +35,9 @@ export const usePokemon = ({ id, name }: Props) => {
 
         setIsLoading(true);
 
-        name = name.toLowerCase();
-
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${ name }`);
         const data = await response.json();
-
+        
         setPokemon({
             id: data.order,
             name: name,
@@ -54,8 +52,13 @@ export const usePokemon = ({ id, name }: Props) => {
     }, [id]);
 
     useEffect(() => {
-        getPokemonByName(name);
-        console.log(name);
+        const timeoutId = setTimeout(() => {
+            getPokemonByName(name);
+        }, 700);
+
+        return () => {
+            clearTimeout(timeoutId);
+        }
     }, [name]);
 
     return {
