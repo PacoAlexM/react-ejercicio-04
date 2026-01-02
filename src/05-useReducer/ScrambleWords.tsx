@@ -31,6 +31,15 @@ const shuffleArray = (array: string[]) => {
 
 // Esta función mezcla las letras de la palabra
 const scrambleWord = (word: string = '') => {
+    // const newWord: string = word
+    //     .split('')
+    //     .sort(() => Math.random() - 0.5)
+    //     .join('');
+    // 
+    // if (newWord === word) return scrambleWord(word);
+    // 
+    // return newWord;
+
     return word
         .split('')
         .sort(() => Math.random() - 0.5)
@@ -38,10 +47,10 @@ const scrambleWord = (word: string = '') => {
 };
 
 export const ScrambleWords = () => {
-    const [words, setWords] = useState(shuffleArray(GAME_WORDS));
+    const [words, setWords] = useState(() => shuffleArray(GAME_WORDS));
 
-    const [currentWord, setCurrentWord] = useState(words[0]);
-    const [scrambledWord, setScrambledWord] = useState(scrambleWord(currentWord));
+    const [currentWord, setCurrentWord] = useState(() => words[0]);
+    const [scrambledWord, setScrambledWord] = useState(() => scrambleWord(currentWord));
     const [guess, setGuess] = useState('');
     const [points, setPoints] = useState(0);
     const [errorCounter, setErrorCounter] = useState(0);
@@ -56,11 +65,38 @@ export const ScrambleWords = () => {
         // Previene el refresh de la página
         e.preventDefault();
         // Implementar lógica de juego
-        console.log('Intento de adivinanza:', guess, currentWord);
+        // console.log('Intento de adivinanza:', guess, currentWord);
+
+        if (currentWord === guess) {
+            const newWords: string[] = words.filter(word => word !== currentWord);
+            const newCurrentWord: string = newWords[0];
+
+            setWords(newWords);
+            setCurrentWord(newCurrentWord);
+            setScrambledWord(scrambleWord(newCurrentWord));
+            setPoints(prev => prev + 1);
+            setGuess('');
+            return;
+        }
+
+        setErrorCounter(prev => prev + 1);
+        setGuess('');
+
+        if (errorCounter + 1 >= maxAllowErrors) setIsGameOver(true);
     };
 
     const handleSkip = () => {
-        console.log('Palabra saltada');
+        // console.log('Palabra saltada');
+
+        if (skipCounter >= maxSkips) return;
+
+        const newWords: string[] = words.filter(word => word !== currentWord);
+        const newCurrentWord: string = newWords[0];
+
+        setWords(newWords);
+        setCurrentWord(newCurrentWord);
+        setScrambledWord(scrambleWord(newCurrentWord));
+        setSkipCounter(prev => prev + 1);
     };
 
     const handlePlayAgain = () => {
