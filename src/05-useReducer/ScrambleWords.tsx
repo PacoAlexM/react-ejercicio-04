@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { SkipForward, Play } from 'lucide-react';
+import confetti  from 'canvas-confetti'
 
 const GAME_WORDS = [
     'REACT',
@@ -31,19 +32,16 @@ const shuffleArray = (array: string[]) => {
 
 // Esta función mezcla las letras de la palabra
 const scrambleWord = (word: string = '') => {
-    // const newWord: string = word
-    //     .split('')
-    //     .sort(() => Math.random() - 0.5)
-    //     .join('');
-    // 
-    // if (newWord === word) return scrambleWord(word);
-    // 
-    // return newWord;
+    if (word === '') return word;
 
-    return word
+    const newWord = word
         .split('')
         .sort(() => Math.random() - 0.5)
         .join('');
+
+    if (newWord === word) return scrambleWord(word);
+
+    return newWord;
 };
 
 export const ScrambleWords = () => {
@@ -70,6 +68,12 @@ export const ScrambleWords = () => {
         if (currentWord === guess) {
             const newWords: string[] = words.filter(word => word !== currentWord);
             const newCurrentWord: string = newWords[0];
+
+            confetti({
+                particleCount: 100,
+                spread: 120,
+                origin: { y: 0.6 },
+            });
 
             setWords(newWords);
             setCurrentWord(newCurrentWord);
@@ -100,7 +104,18 @@ export const ScrambleWords = () => {
     };
 
     const handlePlayAgain = () => {
-        console.log('Jugar de nuevo');
+        // console.log('Jugar de nuevo');
+
+        const newWords = shuffleArray(GAME_WORDS);
+        const newCurrentWord = newWords[0];
+
+        setWords(newWords);
+        setCurrentWord(newCurrentWord);
+        setScrambledWord(scrambleWord(newCurrentWord));
+        setSkipCounter(0);
+        setErrorCounter(0);
+        setPoints(0);
+        setIsGameOver(false);
     };
 
     //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
