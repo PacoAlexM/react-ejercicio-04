@@ -13,16 +13,9 @@ export const useCounter = (initialValue: number = 1) => {
         setCounter(counter - 1);
     }
 
-    const reset = () => {
-        setCounter(prev => {
-            return prev === 1 ? 2 : 1;
-        });
-    }
-
     return {
         counter,
         increment,
         decrement,
-        reset,
     }
 }

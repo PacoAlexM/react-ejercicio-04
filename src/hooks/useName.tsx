@@ -1,14 +1,14 @@
 import { useState } from 'react'
 
-export const useName = (initialValue: string = 'bulbasaur') => {
+export const useName = (initialValue: string = '') => {
     const [name, setName] = useState<string>(initialValue);
 
-    const saveName = (newName: string) => {
+    const save = (newName: string) => {
         setName(newName.toLowerCase());
     }
 
     return {
         name,
-        saveName,
+        save,
     }
 }

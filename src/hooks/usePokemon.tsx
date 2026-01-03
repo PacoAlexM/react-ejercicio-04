@@ -1,16 +1,23 @@
 import { useState, useEffect } from 'react'
 import type { PokemonResponse } from '../03-examples/interfaces/PokemonResponse.interface'
+import type { Pokemon, PokemonType } from '../03-examples/interfaces/Pokemon.interface'
 
-interface Pokemon {
-    id: number;
-    name: string;
-    imageUrl: string;
-    typeId: number[];
-}
+// interface Pokemon {
+//     id: number;
+//     name: string;
+//     imageUrl: string;
+//     types: PokemonType[];
+// }
+// 
+// interface PokemonType {
+//     typeId: number;
+//     typeName: string;
+//     typeImageUrl: string;
+// }
 
 interface Props {
     id: number;
-    name: string;
+    pokemonName: string;
 }
 
 const PokemonType: { [type: string]: number } = {
@@ -34,7 +41,7 @@ const PokemonType: { [type: string]: number } = {
     'fairy': 18,
 }
 
-export const usePokemon = ({ id, name = '' }: Props) => {
+export const usePokemon = ({ id, pokemonName }: Props) => {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -56,16 +63,22 @@ export const usePokemon = ({ id, name = '' }: Props) => {
             .then(data => {
                 const { id, name, types } = data;
 
+                const typesData: PokemonType[] = types.map(type => ({
+                    typeId: PokemonType[type.type.name],
+                    typeName: type.type.name,
+                    typeImageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/brilliant-diamond-and-shining-pearl/${ PokemonType[type.type.name] }.png`,
+                }));
+
                 setPokemon({
                     id,
                     name,
-                    imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }`,
-                    typeId: types.map(type => PokemonType[type.type.name]),
+                    imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`,
+                    types: typesData,
                 });
             })
             .catch(error => {
                 // console.log({ error });
-                setPokemon(null);
+                // setPokemon(null);
                 setError(true);
                 setErrorMessage(error.message);
             });
@@ -116,15 +129,21 @@ export const usePokemon = ({ id, name = '' }: Props) => {
             .then(data => {
                 const { id, name, types } = data;
 
+                const typesData: PokemonType[] = types.map(type => ({
+                    typeId: PokemonType[type.type.name],
+                    typeName: type.type.name,
+                    typeImageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/types/generation-viii/brilliant-diamond-and-shining-pearl/${ PokemonType[type.type.name] }.png`,
+                }));
+
                 setPokemon({
                     id,
                     name,
-                    imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }`,
-                    typeId: types.map(type => PokemonType[type.type.name]),
+                    imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`,
+                    types: typesData,
                 });
             })
             .catch(error => {
-                setPokemon(null);
+                // setPokemon(null);
                 setError(true);
                 setErrorMessage(error.message);
             });
@@ -132,19 +151,23 @@ export const usePokemon = ({ id, name = '' }: Props) => {
         setIsLoading(false);
     }
 
+    const reset = () => setError(false);
+
     useEffect(() => {
         getPokemonById(id);
     }, [id]);
 
     useEffect(() => {
-        const timeoutId = setTimeout(() => {
-            getPokemonByName(name);
-        }, 700);
-    
-        return () => {
-            clearTimeout(timeoutId);
-        }
-    }, [name]);
+        // const timeoutId = setTimeout(() => {
+        //     getPokemonByName(name);
+        // }, 700);
+        // 
+        // return () => {
+        //     clearTimeout(timeoutId);
+        // }
+
+        getPokemonByName(pokemonName);
+    }, [pokemonName]);
 
     return {
         pokemon,
@@ -152,5 +175,6 @@ export const usePokemon = ({ id, name = '' }: Props) => {
         error,
         errorMessage,
         formattedId: pokemon?.id.toString().padStart(3, '0'),
+        reset,
     }
 }
