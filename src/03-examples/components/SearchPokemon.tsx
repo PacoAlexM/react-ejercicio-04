@@ -24,8 +24,12 @@ export const SearchPokemon = ({ currentPokedexEntry, pokemonName, onPreviousPoke
     return (
         <>
             <div className="flex gap-2 mb-2">
-                <button className="enabled:bg-blue-500 disabled:bg-blue-300 text-white px-4 py-2 rounded-md enabled:cursor-pointer" disabled={ currentPokedexEntry == 1 } onClick={ onPreviousPokedexEntryClick }>Anterior</button>
-                <button className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer" onClick={ onNextPokedexEntryClick }>Siguiente</button>
+                <button className="flex items-center justify-center gap-2 enabled:bg-blue-500 disabled:bg-blue-300 text-white px-4 py-2 rounded-md enabled:cursor-pointer" disabled={ currentPokedexEntry == 1 } onClick={ onPreviousPokedexEntryClick }>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="48" d="M328 112L184 256l144 144"/></svg> Anterior
+                </button>
+                <button className="flex items-center justify-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer" onClick={ onNextPokedexEntryClick }>
+                    Siguiente <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="48" d="m184 112l144 144l-144 144"/></svg>
+                </button>
             </div>
 
             <input type="text" className="bg-white text-black px-4 py-2 rounded-md w-1/2 mb-2" value={ name } onChange={ event => setName(event.target.value) } placeholder="Buscar: ejem. bulbasaur" />

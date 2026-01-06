@@ -13,9 +13,12 @@ export const useCounter = (initialValue: number = 1) => {
         setCounter(counter - 1);
     }
 
+    const update = (newValue: number) => setCounter(newValue);
+
     return {
         counter,
         increment,
         decrement,
+        update,
     }
 }

@@ -72,7 +72,8 @@ export const usePokemon = ({ id, pokemonName }: Props) => {
                 setPokemon({
                     id,
                     name,
-                    imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`,
+                    // imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`,
+                    imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${ id }.png`,
                     types: typesData,
                 });
             })
@@ -138,7 +139,8 @@ export const usePokemon = ({ id, pokemonName }: Props) => {
                 setPokemon({
                     id,
                     name,
-                    imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`,
+                    // imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${ id }.png`,
+                    imageUrl: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${ id }.png`,
                     types: typesData,
                 });
             })
@@ -154,6 +156,8 @@ export const usePokemon = ({ id, pokemonName }: Props) => {
     const reset = () => setError(false);
 
     useEffect(() => {
+        if (id === pokemon?.id) return;
+
         getPokemonById(id);
     }, [id]);
 

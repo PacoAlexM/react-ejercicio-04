@@ -1,4 +1,4 @@
-// import { useRef } from 'react'
+import { /*useRef*/ useEffect } from 'react'
 import { useCounter } from '../hooks/useCounter'
 import { useName } from '../hooks/useName'
 import { usePokemon } from '../hooks/usePokemon'
@@ -8,9 +8,17 @@ import { SearchPokemon } from './components/SearchPokemon'
 
 export const PokemonPage = () => {
     // const inputRef = useRef<HTMLInputElement>(null);
-    const { counter, increment, decrement } = useCounter();
+    const { counter, increment, decrement, update } = useCounter();
     const { name, save } = useName();
     const { pokemon, formattedId, isLoading, error, errorMessage, reset } = usePokemon({ id: counter, pokemonName: name });
+
+    useEffect(() => {
+        // console.log('pokemon cambiado');
+        
+        if (!pokemon) return;
+
+        update(pokemon?.id);
+    }, [pokemon]);
 
     if (isLoading) {
         return (
