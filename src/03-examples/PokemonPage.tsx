@@ -68,7 +68,7 @@ export const PokemonPage = () => {
             <input type="text" className="bg-white text-black px-4 py-2 rounded-md w-1/2 mb-2" value={ name } onChange={ (event) => saveName(event.target.value) } ref={ inputRef } placeholder="Buscar: ejem. bulbasaur" />
             */}
 
-            <SearchPokemon currentPokedexEntry={ counter } pokemonName={ name } onPreviousPokedexEntryClick={ decrement } onNextPokedexEntryClick={ increment } onPokemonNameChange={ save } />
+            <SearchPokemon currentPokedexEntry={ counter } /*pokemonName={ name }*/ onPreviousPokedexEntryClick={ decrement } onNextPokedexEntryClick={ increment } onPokemonNameChange={ save } />
         </div>
     );
 }

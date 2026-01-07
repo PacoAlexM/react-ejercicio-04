@@ -1,25 +1,35 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
 
 interface Props {
     currentPokedexEntry: number;
-    pokemonName: string;
+    // pokemonName: string;
     onPreviousPokedexEntryClick: () => void;
     onNextPokedexEntryClick: () => void;
     onPokemonNameChange: (pokemonName: string) => void;
 }
 
-export const SearchPokemon = ({ currentPokedexEntry, pokemonName, onPreviousPokedexEntryClick, onNextPokedexEntryClick, onPokemonNameChange }: Props) => {
-    const [name, setName] = useState(pokemonName);
+export const SearchPokemon = ({ currentPokedexEntry, /*pokemonName,*/ onPreviousPokedexEntryClick, onNextPokedexEntryClick, onPokemonNameChange }: Props) => {
+    // const [name, setName] = useState(pokemonName);
 
-    useEffect(() => {
-        const timerId = setTimeout(() => {
-            onPokemonNameChange(name);
-        }, 700);
+    // useEffect(() => {
+    //     const timerId = setTimeout(() => {
+    //         onPokemonNameChange(name);
+    //     }, 700);
+    // 
+    //     return () => {
+    //         clearTimeout(timerId);
+    //     }
+    // }, [name]);
 
-        return () => {
-            clearTimeout(timerId);
-        }
-    }, [name]);
+    const handleFormAction = (formData: FormData) => {
+        const newName = formData.get('pokemon-name') as string;
+
+        if (newName.trim() === '') return;
+
+        // console.log({ newName });
+
+        onPokemonNameChange(newName);
+    }
 
     return (
         <>
@@ -32,7 +42,10 @@ export const SearchPokemon = ({ currentPokedexEntry, pokemonName, onPreviousPoke
                 </button>
             </div>
 
-            <input type="text" className="bg-white text-black px-4 py-2 rounded-md w-1/2 mb-2" value={ name } onChange={ event => setName(event.target.value) } placeholder="Buscar: ejem. bulbasaur" />
+            {/* <input type="text" className="bg-white text-black px-4 py-2 rounded-md w-1/2 mb-2" value={ name } onChange={ event => setName(event.target.value) } placeholder="Buscar: ejem. bulbasaur" /> */}
+            <form action={ handleFormAction } className="flex flex-col items-center justify-center">
+                <input type="text" name="pokemon-name" className="bg-white text-black px-4 py-2 mb-2 rounded-md w-[250px]" placeholder="Buscar: ejem. bulbasaur" />
+            </form>
         </>
     );
 }
