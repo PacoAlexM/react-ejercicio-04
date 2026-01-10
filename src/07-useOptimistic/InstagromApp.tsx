@@ -1,4 +1,5 @@
-import { useState, useOptimistic } from 'react'
+import { useState, useOptimistic, useTransition } from 'react'
+import { toast } from 'sonner'
 
 interface Comment {
     id: number;
@@ -6,14 +7,20 @@ interface Comment {
     optimistic?: boolean;
 }
 
+let lastId: number = 2;
+
 export const InstagromApp = () => {
+    const [isPending, startTransition] = useTransition();
+
     const [comments, setComments] = useState<Comment[]>([
         { id: 1, text: '¡Gran foto!' },
         { id: 2, text: 'Me encanta 🧡' },
     ]);
 
     const [optimisticComments, addOptimisticComment] = useOptimistic(comments, (currentComments, newComment: string) => {
-        return [ ...currentComments, { id: new Date().getDate(), text: newComment, optimistic: true } ];
+        lastId++;
+
+        return [ ...currentComments, { id: lastId, text: newComment, optimistic: true } ];
     });
 
     const handleAddComment = async (formData: FormData) => {
@@ -23,9 +30,24 @@ export const InstagromApp = () => {
 
         addOptimisticComment(newPost);
 
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        startTransition(async () => {
+            await new Promise(resolve => setTimeout(resolve, 3000));
+    
+            // setComments(prev => [ ...prev, { id: new Date().getDate(), text: newPost } ]);
 
-        setComments(prev => [ ...prev, { id: new Date().getDate(), text: newPost } ]);
+            //! Rollback en caso de fallo
+            setComments(prev => prev);
+
+            toast('Error al agregar comentario', {
+                action: {
+                    label: 'Cerrar',
+                    onClick: () => toast.dismiss(),
+                },
+                description: 'Intente nuevamente',
+                duration: 10_000,
+                position: 'top-right',
+            });
+        });
     };
 
     return (
@@ -54,7 +76,7 @@ export const InstagromApp = () => {
             {/* Formulario de comentarios */}
             <form action={ handleAddComment } className="flex flex-col items-center justify-center bg-gray-300 w-[500px] rounded-b-3xl p-4">
                 <input type="text" name="post-message" placeholder="Escribe un comentario" required className="w-full p-2 rounded-md mb-2 text-black bg-white" />
-                <button type="submit" disabled={ false } className="bg-blue-500 text-white p-2 rounded-md w-full">Enviar</button>
+                <button type="submit" disabled={ isPending } className="bg-blue-500 text-white p-2 rounded-md w-full">Enviar</button>
             </form>
         </div>
     );
