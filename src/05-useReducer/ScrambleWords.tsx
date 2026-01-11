@@ -50,9 +50,9 @@ export const ScrambleWords = () => {
     //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
     if (words.length === 0) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
+            <div className="min-h-screen bg-linear-to-br from-purple-100 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
                 <div className="w-full max-w-md mx-auto">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">Palabras desordenadas</h1>
+                    <h1 className="text-4xl font-bold bg-linear-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">Palabras desordenadas</h1>
                     <p className="text-gray-600">No hay palabras para jugar</p>
 
                     <br />
@@ -76,11 +76,11 @@ export const ScrambleWords = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-linear-to-br from-purple-100 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
             <div className="w-full max-w-md mx-auto">
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">Palabras desordenadas</h1>
+                    <h1 className="text-4xl font-bold bg-linear-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">Palabras desordenadas</h1>
                     <p className="text-gray-600">Desordena las letras para encontrar la palabra!</p>
                 </div>
 
@@ -98,7 +98,7 @@ export const ScrambleWords = () => {
                             <div className="flex justify-center gap-2 mb-6">
                                 {
                                     scrambledWord.split('').map((letter, index) => (
-                                        <div key={ index } className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg transform hover:scale-105 transition-transform duration-200" style={ { animationDelay: `${index * 0.1}s`, animation: 'fadeInUp 0.6s ease-out forwards', } }>{ letter }</div>
+                                        <div key={ index } className="w-12 h-12 bg-linear-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg transform hover:scale-105 transition-transform duration-200" style={ { animationDelay: `${index * 0.1}s`, animation: 'fadeInUp 0.6s ease-out forwards', } }>{ letter }</div>
                                     ))
                                 }
                             </div>
@@ -111,17 +111,17 @@ export const ScrambleWords = () => {
                                     <label htmlFor="guess" className="block text-sm font-medium text-gray-700 mb-2">Adivina la palabra</label>
                                     <Input id="guess" type="text" value={ guess } onChange={ (e) => { dispatch({ type: 'SET_GUESS', payload: e.target.value }) } } placeholder="Ingresa tu palabra..." className="text-center text-lg font-semibold h-12 border-2 border-indigo-200 focus:border-indigo-500 transition-colors" maxLength={ scrambledWord.length } disabled={ isGameOver } />
                                 </div>
-                                <Button type="submit" className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200" disabled={ !guess.trim() || isGameOver }>Enviar Adivinanza</Button>
+                                <Button type="submit" className="w-full bg-linear-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-3 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200" disabled={ !guess.trim() || isGameOver }>Enviar Adivinanza</Button>
                             </div>
                         </form>
 
                         {/* Stats */}
                         <div className="grid grid-cols-2 gap-4 mb-6">
-                            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-4 text-center border border-green-200">
+                            <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-lg p-4 text-center border border-green-200">
                                 <div className="text-2xl font-bold text-green-600">{ points } / { totalWords }</div>
                                 <div className="text-sm text-green-700 font-medium">Puntos</div>
                             </div>
-                            <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-lg p-4 text-center border border-red-200">
+                            <div className="bg-linear-to-br from-red-50 to-rose-50 rounded-lg p-4 text-center border border-red-200">
                                 <div className="text-2xl font-bold text-red-600">{ errorCounter } / { maxAllowErrors }</div>
                                 <div className="text-sm text-red-700 font-medium">Errores</div>
                             </div>
