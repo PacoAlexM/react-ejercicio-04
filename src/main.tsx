@@ -1,7 +1,7 @@
-import { StrictMode, Suspense } from 'react'
+import { StrictMode/*, Suspense*/ } from 'react'
 import { createRoot } from 'react-dom/client'
 
-// import { Toaster } from 'sonner'
+import { Toaster } from 'sonner'
 
 // import { HooksApp } from './HooksApp'
 // import { TrafficLight } from './01-useState/TrafficLight'
@@ -14,14 +14,15 @@ import { createRoot } from 'react-dom/client'
 // import { MemoHook } from './06-memos/MemoHook'
 // import { MemoCounter } from './06-memos/MemoCounter'
 // import { InstagromApp } from './07-useOptimistic/InstagromApp'
-import { ClientInformation } from './08-use-suspense/ClientInformation'
+// import { ClientInformation } from './08-use-suspense/ClientInformation'
+import { ProfessionalApp } from './09-useContext/ProfessionalApp'
 import './index.css'
 
-import { getUserAction } from './08-use-suspense/api/get-user.action'
+// import { getUserAction } from './08-use-suspense/api/get-user.action'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    {/* <Toaster /> */}
+    <Toaster />
     {/* <HooksApp /> */}
     {/* <TrafficLight /> */}
     {/* <TrafficLightWithEffect /> */}
@@ -33,7 +34,7 @@ createRoot(document.getElementById('root')!).render(
     {/* <MemoHook /> */}
     {/* <MemoCounter /> */}
     {/* <InstagromApp /> */}
-    <Suspense fallback={(
+    {/* <Suspense fallback={(
       <div className="bg-gradient flex flex-col">
         <h1 className="text-2xl flex items-center gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
@@ -44,7 +45,8 @@ createRoot(document.getElementById('root')!).render(
         </h1>
       </div>
     )}>
-      <ClientInformation getUser={ getUserAction(1000) } /*id={ 100 }*/ />
-    </Suspense>
+      <ClientInformation getUser={ getUserAction(1000) } *id={ 100 }* />
+    </Suspense> */}
+    <ProfessionalApp />
   </StrictMode>,
 )
